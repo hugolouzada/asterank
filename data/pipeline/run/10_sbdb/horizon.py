@@ -74,7 +74,7 @@ def _run(partial=False):
       massd[name] = []
     massd[name].append(mass)
 
-  for name, masses in massd.iteritems():
+  for name, masses in massd.items():
     avg = sum(masses) / len(masses)
     massd[name] = avg
   del massd['']

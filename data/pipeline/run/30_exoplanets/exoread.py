@@ -18,7 +18,7 @@ coll.ensure_index('kepoi_name', unique=True)  # kepid isn't actually unique...
 
 c = 0
 for row in reader:
-  for key, val in row.iteritems():
+  for key, val in row.items():
     try:
       val = float(val)
     except ValueError:

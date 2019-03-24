@@ -12,8 +12,8 @@ Sample invocation:
 
 Sample invocation of a single step:
 
-  ./pipline 00_foo
+  ./pipeline 00_foo
 
 It matches patterns (same as above):
 
-  ./pipline 00_
+  ./pipeline 00_
