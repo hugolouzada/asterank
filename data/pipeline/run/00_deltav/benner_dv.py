@@ -6,14 +6,18 @@
 
 import csv
 import re
-import StringIO
+try:
+    import StringIO
+except ImportError:
+    from io import StringIO
+
 import sys
-import urllib2
+from urllib.request import urlopen
 
 BENNER_URL = 'http://echo.jpl.nasa.gov/~lance/delta_v/delta_v.rendezvous.html'
 
 def process_from_internet():
-  data = urllib2.urlopen(BENNER_URL).read()
+  data = urlopen(BENNER_URL).read()
   return process(data)
 
 def process(text):

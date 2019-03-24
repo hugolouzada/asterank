@@ -4,12 +4,13 @@
 #
 
 import sys
-import urllib
+from urllib.request import urlopen
 import re
 import json
 import time
 from bs4 import BeautifulSoup
 from datetime import datetime
+
 
 class Asteroid:
   def __init__(self, name):
@@ -42,7 +43,7 @@ class Asteroid:
 
 class JPL_Query:
   def __init__(self, query):
-    src = urllib.urlopen('http://ssd.jpl.nasa.gov/sbdb.cgi?sstr=%s;cad=1' % query ).read()
+    src = urlopen('http://ssd.jpl.nasa.gov/sbdb.cgi?sstr=%s;cad=1' % query ).read()
     self.soup = BeautifulSoup(src.replace('cellspacing="0"0', ''))
 
   def orbitalParameter(self, txt):
@@ -119,8 +120,8 @@ class JPL_Query:
 
 if __name__ == "__main__":
   if len(sys.argv) < 2:
-    print 'usage: lookup <name>'
+    print('usage: lookup <name>')
     sys.exit(1)
   a = Asteroid(' '.join(sys.argv[1:]))
   a.load()
-  print json.dumps(a.data)
+  print(json.dumps(a.data))

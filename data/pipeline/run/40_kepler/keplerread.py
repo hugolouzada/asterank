@@ -5,7 +5,7 @@ import sys
 from pymongo import MongoClient
 
 if len(sys.argv) < 2:
-  print 'usage: python read.py filepath'
+  print('usage: python read.py filepath')
   sys.exit(1)
 
 f = open(sys.argv[1], 'r')
@@ -29,5 +29,5 @@ coll.ensure_index('KOI', unique=True)
 for planet in planets:
   coll.insert(planet, continue_on_error=True)
 
-print 'Added', len(planets), 'planets'
-print 'Done.'
+print('Added', len(planets), 'planets')
+print('Done.')

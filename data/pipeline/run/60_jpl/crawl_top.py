@@ -24,7 +24,7 @@ def process(asteroid):
   if idx == 0:
     desig = desig[1:-1]
 
-  print 'q:', desig
+  print('q:', desig)
   a = Asteroid(desig)
   a.load()
   a.data['tag_name'] = desig

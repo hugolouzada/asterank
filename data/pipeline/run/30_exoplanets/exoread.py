@@ -6,7 +6,7 @@ import csv
 from pymongo import MongoClient
 
 if len(sys.argv) < 2:
-  print 'usage: python read.py filepath'
+  print('usage: python read.py filepath')
   sys.exit(1)
 
 reader = csv.DictReader(open(sys.argv[1]), delimiter=',', quotechar='"')
@@ -27,5 +27,5 @@ for row in reader:
   coll.insert(row, continue_on_error=True)
   c += 1
 
-print 'Added', c, 'candidate exoplanets'
-print 'Done.'
+print('Added', c, 'candidate exoplanets')
+print('Done.')

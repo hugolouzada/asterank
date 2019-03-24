@@ -48,7 +48,7 @@ def _run(partial=False):
   conn = Connection('localhost', 27017)
   db = conn.asterank
   coll = db.asteroids
-  print 'Dropping asteroids (SBDB) collection...'
+  print('Dropping asteroids (SBDB) collection...')
   coll.drop()
   coll.ensure_index('full_name', unique=True, background=True)
   coll.ensure_index('score', background=True)
@@ -58,7 +58,7 @@ def _run(partial=False):
   coll.ensure_index('price', background=True)
 
   # load mass data
-  print 'Loading mass data...'
+  print('Loading mass data...')
   f = open(MASS_PATH, 'r')
   lines = f.readlines()
   f.close()
@@ -80,14 +80,14 @@ def _run(partial=False):
   del massd['']
 
   # load delta v data
-  print 'Loading delta-v data...'
+  print('Loading delta-v data...')
   reader = csv.DictReader(open(DV_PATH, 'r'))
   deltav_map = {}
   for row in reader:
     deltav_map[row['pdes']] = row['dv']
 
-  print 'Loading small body data...this may take a while'
-  print DATA_PATH
+  print('Loading small body data...this may take a while')
+  print(DATA_PATH)
   reader = csv.DictReader(open(DATA_PATH), delimiter=',', quotechar='"')
   designation_regex = re.compile('.*\(([^\)]*)\)')
   n = 0
@@ -101,16 +101,16 @@ def _run(partial=False):
         row['spec'] = newspec.strip()
       # TODO(@ian) move specific adjustments out into its own file.
       elif row['pdes'] == '2012 DA14':
-        print 'Adjust 2012 DA14'
+        print('Adjust 2012 DA14')
         row['spec'] = 'L'
       elif row['full_name'] == '6178 (1986 DA)':
-        print 'Adjust 1986 DA'
+        print('Adjust 1986 DA')
         row['spec'] = 'M'
       elif row['full_name'] == '436724 (2011 UW158)':
-        print 'Adjust 2011 UW158'
+        print('Adjust 2011 UW158')
         row['spec'] = 'Xc'
       elif row['full_name'] == '101955 Bennu (1999 RQ36)':
-        print 'Adjust Bennu'
+        print('Adjust Bennu')
         row['spec'] = 'B'
       elif row['class'] in COMET_CLASSES:
         row['spec'] = 'comet'
@@ -142,7 +142,7 @@ def _run(partial=False):
       if val is None: val = ''
       try:
         fv = float(val)
-      except ValueError, TypeError:
+      except ValueError or TypeError:
         row[key] = val.strip()
       else:
         row[key] = fv
@@ -175,22 +175,22 @@ def _run(partial=False):
     n += 1
     if len(items) > 20000:
       # insert into mongo
-      print 'Row #', n, '... inserting/updating %d items into asteroids (SBDB) collection' % (len(items))
+      print('Row #', n, '... inserting/updating %d items into asteroids (SBDB) collection' % (len(items)))
       coll.insert(items, continue_on_error=True)
       items = []
   # insert into mongo
-  print 'Row #', n, '... inserting/updating %d items into asteroids (SBDB) collection' % (len(items))
+  print('Row #', n, '... inserting/updating %d items into asteroids (SBDB) collection' % (len(items)))
   coll.insert(items, continue_on_error=True)
   items = []
 
-  print 'Loaded', n, 'asteroids'
+  print('Loaded', n, 'asteroids')
 
 def compositions():
-  print json.dumps(estimate.SPECTRA_INDEX)
+  print(json.dumps(estimate.SPECTRA_INDEX))
   return estimate.SPECTRA_INDEX
 
 def materials():
-  print json.dumps(estimate.MATERIALS_INDEX)
+  print(json.dumps(estimate.MATERIALS_INDEX))
   return estimate.MATERIALS_INDEX
 
 if __name__ == "__main__":
@@ -211,4 +211,4 @@ if __name__ == "__main__":
   if fnname in l:
     l[fnname]()
   else:
-    print 'No such operation "%s"' % fnname
+    print('No such operation "%s"' % fnname)
