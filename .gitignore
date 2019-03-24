@@ -6,6 +6,7 @@
 *.rdb
 
 venv
+env
 build
 pip-log.txt
 npm-log.txt
