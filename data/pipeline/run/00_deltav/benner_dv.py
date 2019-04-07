@@ -17,7 +17,9 @@ from urllib.request import urlopen
 BENNER_URL = 'http://echo.jpl.nasa.gov/~lance/delta_v/delta_v.rendezvous.html'
 
 def process_from_internet():
-  data = urlopen(BENNER_URL).read()
+  with urlopen(BENNER_URL) as response:
+      encoding = response.headers.get_content_charset()
+      data = response.read().decode(encoding)
   return process(data)
 
 def process(text):
@@ -34,7 +36,7 @@ def process(text):
       '\s+(?P<e>\d+\.\d+)'
       '\s+(?P<i>\d+\.\d+)'))
   c = 0
-  buf = StringIO.StringIO()
+  buf = StringIO()
   fields = ('pdes', 'dv', 'H', 'a', 'e', 'i')
   writer = csv.DictWriter(buf, fields)
   writer.writeheader()

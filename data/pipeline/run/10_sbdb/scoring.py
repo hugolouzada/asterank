@@ -6,6 +6,11 @@ import math
 import random
 import estimate
 
+try:
+  basestring
+except NameError:
+  basestring = str
+
 DEFAULT_RADIUS = .5  # km
 DEFAULT_MASS = 1.47e15  # kg
 DEFAULT_MOID = 2  # TODO get avg moid
@@ -40,7 +45,11 @@ def closeness_weight(obj):
   emoid = DEFAULT_MOID if isinstance(obj['moid'], basestring) else obj['moid']
 
   # penalize aphelion distance
-  aph = obj['ad']
+  try:
+    aph = float(obj['ad'])
+  except:
+    aph=50
+
   if aph > 50:
     return -1
   aph_score = 1/(1+math.exp(0.9*aph))
