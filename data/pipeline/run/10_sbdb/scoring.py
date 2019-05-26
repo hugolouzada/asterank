@@ -60,7 +60,7 @@ def closeness_weight(obj):
   ph = obj['q']
   ph_score = 1/(1+math.exp(0.9*ph))
 
-  if 'dv' in obj:
+  if 'dv' in obj and not isinstance(obj['dv'], basestring):
     dv = obj['dv']
   else:
     if obj['spec'] == 'comet':
@@ -140,5 +140,8 @@ def price(obj):
 def profit(obj):
   if obj['spec'] == 'comet':
     return -1
-  my_dv = obj['dv'] if 'dv' in obj else DEFAULT_DV
-  return obj['price'] / 12 * obj['closeness'] / 3417.5490736698116 * estimate.profitRatio(DEFAULT_DV, my_dv)
+  my_dv = obj['dv'] if ('dv' in obj and not isinstance(obj['dv'], basestring)) else DEFAULT_DV
+  try:
+    return obj['price'] / 12 * obj['closeness'] / 3417.5490736698116 * estimate.profitRatio(DEFAULT_DV, my_dv)
+  except:
+    return 0
